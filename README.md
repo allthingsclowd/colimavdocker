@@ -113,3 +113,6 @@ Colima -> version 0.5.5
 
 Happy Shipping!
 Graz
+
+https://github.com/allthingsclowd/colimavdocker/blob/6d8b96456874a97c93489279b0b2de110af0a87c/docker-compose.yml#L1C1-L76C27
+
