@@ -1,0 +1,78 @@
+version: '3.6'
+services:
+  web:
+    image: 'gitlab/gitlab-ce:16.2.6-ce.0'
+    depends_on:
+       - redis
+       - postgresql
+    hostname: 'gitlab.demo'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.4
+    environment:
+       GITLAB_OMNIBUS_CONFIG: |
+         postgresql['enable'] = false
+         gitlab_rails['db_username'] = "gitlab"
+         gitlab_rails['db_password'] = "gitlab"
+         gitlab_rails['db_host'] = "postgresql"
+         gitlab_rails['db_database'] = "gitlabDB"
+         gitlab_rails['db_adapter'] = 'postgresql'
+         gitlab_rails['db_encoding'] = 'utf8'
+         redis['enable'] = false
+         gitlab_rails['redis_host'] = 'redis'
+         gitlab_rails['redis_port'] = '6379'
+         prometheus['enable'] = false
+         external_url "http://gitlab.demo"
+         gitlab_rails['gitlab_shell_ssh_port'] = 23
+    container_name: gitlabce
+    extra_hosts:
+      - "gitlab.demo:127.0.0.1"
+    restart:  always
+    ports:
+      - '80:80'
+      - '443:443'
+      - '23:22'
+    volumes:
+      - '$GITLAB_HOME/config:/etc/gitlab'
+      - '$GITLAB_HOME/logs:/var/log/gitlab'
+      - '$GITLAB_HOME/data:/var/opt/gitlab'
+    shm_size: '4GB'
+  postgresql:
+     container_name: postgress
+     image: postgres:15.4
+     networks:
+      vpcbr:
+        ipv4_address: 10.5.0.5
+     environment:
+       - POSTGRES_USER=gitlab
+       - POSTGRES_PASSWORD=gitlab
+       - POSTGRES_DB=gitlabDB
+  redis:
+     image: redis:7.2.1
+     container_name: redis
+     networks:
+      vpcbr:
+        ipv4_address: 10.5.0.6
+
+  runner:
+    image: gitlab/gitlab-runner:v16.3.0
+    container_name: gitlab-runner
+    restart: always
+    extra_hosts:
+      - "gitlab.demo:10.5.0.4"
+    volumes:
+     - '$GITLAB_HOME/gitlab-runner/config:/etc/gitlab-runner'
+     - '/var/run/docker.sock:/var/run/docker.sock'
+    networks:
+      vpcbr:
+        ipv4_address: 10.5.0.7
+
+networks:
+  vpcbr:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 10.5.0.0/24
+         gateway: 10.5.0.1
+
+
