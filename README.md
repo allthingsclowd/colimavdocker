@@ -2,7 +2,7 @@
 
 So, this is written from the perspective of someone that doesn't really care too much which container engine that they're using. I simply wanted to evaluate a vendor's product and knew that containers would be the most efficient way to get up and running fast. I'm also undertaking this activity as a personal training exercise and that means that Docker Desktop licensing should not be an issue. However, if you are using containers in a work capacity but are not licensed for Docker Desktop then read on as this may provide you with viable open source solution for container management.
 
-Also note that the challenges I faced here were specific to Apple MacOS users that are running on Apple's proprietary M1/M2 silicon - the irony is not lost on me here running on such expensive tin and concerned about relatively trivial licensing costs :) .
+Also note that the challenges I faced here were specific to Apple MacOS users that are running on Apple's proprietary M1/M2 silicon - the irony is not lost on me here running on such expensive tin and concerned about relatively trivial licensing costs 😁.
 
 ## TLDR
 
@@ -114,5 +114,7 @@ Colima -> version 0.5.5
 Happy Shipping!
 Graz
 
-https://github.com/allthingsclowd/colimavdocker/blob/6d8b96456874a97c93489279b0b2de110af0a87c/docker-compose.yml#L1C1-L76C27
+https://github.com/allthingsclowd/colimavdocker/blob/e38ac283431ae9c7f8e2febed36799ea891a8e9b/docker-compose.yml#L1-L76
+
+
 
